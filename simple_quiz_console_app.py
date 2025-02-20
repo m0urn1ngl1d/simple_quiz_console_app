@@ -24,8 +24,7 @@ def check_input(given_answer=None):
             float(given_answer)
             return given_answer
         except ValueError:
-            print("INPUT A NUMBER!!!") 
-            return check_input(input("Type answer: ")) 
+            return check_input(input("INPUT A NUMBER!!!   Type answer: ")) 
            
     return given_answer
 

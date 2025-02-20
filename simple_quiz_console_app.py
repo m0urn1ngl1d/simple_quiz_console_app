@@ -1,6 +1,7 @@
 
 import random
 
+# use math operators
 def solve_and_check(num1, num2, operator, given_answer):
     if operator == "/":
         result = num1 / num2
@@ -14,29 +15,68 @@ def solve_and_check(num1, num2, operator, given_answer):
         return "CORRECT"
     return "WRONG"
 
-statistic_dictionary = {"CORRECT": 0, "WRONG": 0}
+# check answer if answer is string - ask for number
+def check_input(given_answer=None):
+    if given_answer is None:
+        given_answer = input("Type answer: ")
+    if given_answer != "q":
+        try:
+            float(given_answer)
+            return given_answer
+        except ValueError:
+            print("INPUT A NUMBER!!!") 
+            return check_input(input("Type answer: ")) 
+           
+    return given_answer
+
+# declare dictionary for statistics output
+
+statistic_dictionary = {"CORRECT": 0, "WRONG": 0} 
+
+# base math operators
+
 math_operators = {0: "/", 1: "*", 2: "-", 3: "+"}
-num_1 = random.randrange(0, 100)
+
+# use random
+
+num_1 = random.randrange(0, 100) 
 num_2 = random.randrange(1, 100)
 operator = random.choice(math_operators)
-print(num_1, operator, num_2)
-give_answer = input("Type answer: ")
 
-while give_answer != "q":
-    count = 0
-    result = solve_and_check(num_1, num_2, operator, float(give_answer))
-    print(result)
+# print task for user to solve
+
+print(num_1, operator, num_2)
+
+# input answer
+
+given_answer = check_input()
+
+# I won't explain it...
+# Ok... Nah
+
+while given_answer != "q":
+    count = 0                                                                        # to count "CORRECT" and "WRONG"
+    result = solve_and_check(num_1, num_2, operator, float(given_answer))            # solve task to check user
+    print()
+    print(result)                                                                    # print CORRECT" or "WRONG"
+    print()
     if result == "CORRECT":
-        statistic_dictionary["CORRECT"] = statistic_dictionary.get("CORRECT", 0) + 1
+        statistic_dictionary["CORRECT"] = statistic_dictionary.get("CORRECT", 0) + 1 # count amount of "CORRECT". ADD VALUE to dictionary
     elif result == "WRONG":
-        statistic_dictionary["WRONG"] = statistic_dictionary.get("WRONG", 0) + 1
-    num_1 = random.randrange(0, 100)
+        statistic_dictionary["WRONG"] = statistic_dictionary.get("WRONG", 0) + 1     # count amount of "WRONG". ADD VALUE to dictionary
+    num_1 = random.randrange(0, 100)    
     num_2 = random.randrange(1, 100)
     operator = random.choice(math_operators)
     print(num_1, operator, num_2)
-    give_answer = input("Type answer: ")
+    given_answer = check_input()
+
+# count OUTPUPUT
+
 if statistic_dictionary["WRONG"] > 0:
-    output = statistic_dictionary["CORRECT"] / statistic_dictionary["WRONG"] * 100
+    output = statistic_dictionary["CORRECT"] / (statistic_dictionary["WRONG"] + statistic_dictionary["CORRECT"]) * 100
 else:
     output = 100.0
-print(f"You have: {output}% correct answers")
+
+# print OUTPUT
+
+print(f"You have: {round(output, 1)}% correct answers")

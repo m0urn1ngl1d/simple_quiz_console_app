@@ -19,7 +19,7 @@ The app will end, and you will see your score.
 
 ## Important Notes
 
-- `simple_quiz_console_app` **cannot handle errors**.  
+- `simple_quiz_console_app` probably **can** handle errors now.  
 - Answers should be **numbers** or `"q"` to quit.
 
 

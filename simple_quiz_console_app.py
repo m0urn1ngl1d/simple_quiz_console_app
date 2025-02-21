@@ -29,14 +29,23 @@ def check_input(given_answer=None):
            
     return given_answer
 
+# increased rate to get division
+def make_div_great_again():
+    num1 = random.randrange(0, 100)
+    num2 = random.randrange(1, 100)
+    operator = "/"
+    if operator == "/" and num1 % num2 != 0:
+        return make_div_great_again()
+    return num1, num2, operator
+
 # use random
-def make_random():
+def make_random(func):
     math_operators = ["/", "*", "-", "+"]
     num1 = random.randrange(0, 100)
     num2 = random.randrange(1, 100)
     operator = random.choice(math_operators)
     if operator == "/" and num1 % num2 != 0:
-        return make_random()
+        return func
     elif operator == "-" and num2 > num1:
         return make_random()
     return num1, num2, operator
@@ -46,7 +55,7 @@ def make_random():
 statistic_dictionary = {"CORRECT": 0, "WRONG": 0} 
 
 # use make_random func to make random numbers
-num_1, num_2, operator = make_random()
+num_1, num_2, operator = make_random(make_div_great_again())
 
 # print task for user to solve
 print("=" * 100)
@@ -67,7 +76,7 @@ while given_answer != "q":
         statistic_dictionary["CORRECT"] = statistic_dictionary.get("CORRECT", 0) + 1 
     elif result[0] == "WRONG":
         statistic_dictionary["WRONG"] = statistic_dictionary.get("WRONG", 0) + 1    
-    num_1, num_2, operator = make_random()
+    num_1, num_2, operator = make_random(make_div_great_again())
     print(num_1, operator, num_2)
     given_answer = check_input()
     first_input = False

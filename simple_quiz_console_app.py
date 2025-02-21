@@ -11,9 +11,9 @@ def solve_and_check(num1, num2, operator, given_answer):
         result = num1 - num2
     elif operator == "+":
         result = num1 + num2
-    if float(result) == given_answer:
-        return "CORRECT"
-    return "WRONG"
+    if float(result) != given_answer:
+        return "WRONG", float(result)
+    return "CORRECT"
 
 # check answer if answer is string - ask for number
 def check_input(given_answer=None):
@@ -29,19 +29,24 @@ def check_input(given_answer=None):
            
     return given_answer
 
-# declare dictionary for statistics output
+# use random
+def make_random():
+    math_operators = ["/", "*", "-", "+"]
+    num1 = random.randrange(0, 100)
+    num2 = random.randrange(1, 100)
+    operator = random.choice(math_operators)
+    if operator == "/" and num1 % num2 != 0:
+        return make_random()
+    elif operator == "-" and num2 > num1:
+        return make_random()
+    return num1, num2, operator
 
+
+# declare dictionary for statistics output
 statistic_dictionary = {"CORRECT": 0, "WRONG": 0} 
 
-# base math operators
-
-math_operators = {0: "/", 1: "*", 2: "-", 3: "+"}
-
-# use random
-
-num_1 = random.randrange(0, 100) 
-num_2 = random.randrange(1, 100)
-operator = random.choice(math_operators)
+# use make_random func to make random numbers
+num_1, num_2, operator = make_random()
 
 # print task for user to solve
 print("=" * 100)
@@ -54,22 +59,20 @@ first_input = True
 # Ok... Nah
 
 while given_answer != "q":
-    count = 0                                                                        # to count "CORRECT" and "WRONG"
-    result = solve_and_check(num_1, num_2, operator, float(given_answer))           # solve task to check user
-    print("YOUR ANSWER IS:", result)                                                                    # print CORRECT" or "WRONG"
+    count = 0                                                                        
+    result = solve_and_check(num_1, num_2, operator, float(given_answer))           
+    print("YOUR ANSWER IS:", *(result if type(result) == tuple else (result,))) 
     print("=" * 100)
     if result == "CORRECT":
-        statistic_dictionary["CORRECT"] = statistic_dictionary.get("CORRECT", 0) + 1 # count amount of "CORRECT". ADD VALUE to dictionary
-    elif result == "WRONG":
-        statistic_dictionary["WRONG"] = statistic_dictionary.get("WRONG", 0) + 1     # count amount of "WRONG". ADD VALUE to dictionary
-    num_1 = random.randrange(0, 100)    
-    num_2 = random.randrange(1, 100)
-    operator = random.choice(math_operators)
+        statistic_dictionary["CORRECT"] = statistic_dictionary.get("CORRECT", 0) + 1 
+    elif result[0] == "WRONG":
+        statistic_dictionary["WRONG"] = statistic_dictionary.get("WRONG", 0) + 1    
+    num_1, num_2, operator = make_random()
     print(num_1, operator, num_2)
     given_answer = check_input()
     first_input = False
-# count OUTPUPUT
 
+# count OUTPUPUT
 if statistic_dictionary["WRONG"] > 0:
     output = statistic_dictionary["CORRECT"] / (statistic_dictionary["WRONG"] + statistic_dictionary["CORRECT"]) * 100
 elif first_input:
